@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class ClickFrame extends JFrame {
     private final JButton clickButton;
-    private Point location;
+    private boolean clicked;
 
     public ClickFrame(String name)
     {
@@ -22,31 +22,35 @@ public class ClickFrame extends JFrame {
         clickButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                clicked=true;
                 JOptionPane.showMessageDialog(null,"Wow! You did it!");
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                location = clickButton.getLocation();
-                clickButton.setLocation(setRandomButtonLocation());
-            }
-
-            private Point setRandomButtonLocation()
-            {
-                Random rand = new Random();
-                int x = 0;
-                do
-                {
-                    x = rand.nextInt(600);
-                } while (x == (int) location.getX());
-                int y = 0;
-                do
-                {
-                    y = rand.nextInt(400);
-                } while (y == (int) location.getY());
-
-                return new Point(x,y);
-            }
         });
+    }
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void randomLocation()
+    {
+        clickButton.setLocation(setRandomButtonLocation());
+    }
+
+    private Point setRandomButtonLocation()
+    {
+        Random rand = new Random();
+        int x = 0;
+        do
+        {
+            x = rand.nextInt(600);
+        } while (x == clickButton.getX());
+        int y = 0;
+        do
+        {
+            y = rand.nextInt(400);
+        } while (y == clickButton.getY());
+
+        return new Point(x,y);
     }
 }
